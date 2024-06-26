@@ -1,12 +1,17 @@
-# sensitive-attribute-containment-dnn-fairness
-
+# Global Interpretation Weighted Median Value Replacement for Mitigating Sensitive Attribute Leakage in Neural Networks
 Authors: Amit Joshi(@amitjoshi24), Priyal Belgamwar (@priyal2506), Nikhil Ajjarapu(@nikhil-ajjarapu)
 
-Steps to accomplish:
+## Overview
+This project aims to address the issue of sensitive attribute leakage in neural networks, which can lead to biased predictions. The proposed solution is a post-processing technique called Weighted Median Value Replacement, which modifies neuron weights to reduce bias while maintaining accuracy.
 
-1) Create a basic Pytorch NN model with n layers + train recidivism dataset. 
-2) Freeze weights of 0th - (n - 1) layers, copy into new model with random weights initalized for last layer, and train with recidivism dataset + race as labels. 
-3) Use captum to look at neurons in the frozen layers (0 - n-1) to see which corresponds most with race. Use captum code here: https://github.com/TannerGilbert/Model-Interpretation/blob/master/Captum/Getting_started_with_Captum_Insights.ipynb. Select neurons that meet certain threshold/weighted average based on importance of neuron to final race output.
-4) Look at distribution of neuron outputs among each sensitive group, merge these distributions by taking the median at each percentile. During inference time, modify neuron outputs by mapping from its sensitve group distribution to its corresponding value in the merged distribution. Perhaps take a weighted average between its distribution to the merged distribution depending on how important the neuron was in predicting race.
-5) Modify outputs as mentioned above during inference, then plug back in modified outputs and continue running inference on original recidivism dataset. Tradeoff between accuracy + correlation to sensitive attributes.
-6) Use Amit's code to figure out whether model outputs are still correlated with sensitive attributes (measuring improvement in mitigating sensitive attribute leakage.)
+## Introduction
+Neural networks are increasingly used in various high-stakes applications, such as loan approvals and criminal sentencing. However, these models can propagate and even amplify societal biases, particularly when neurons in the network learn correlations between non-sensitive and sensitive input features, leading to sensitive attribute leakage. This project introduces a post-processing technique, weighted median value replacement, to mitigate this issue.
+
+## Problem Statement
+Sensitive attribute leakage occurs when features correlated with sensitive attributes (e.g., race, gender) inadvertently influence the predictions of a neural network. This can lead to biased outcomes, disadvantaging marginalized groups. The challenge is to enhance the fairness of neural networks without significantly compromising their accuracy.
+
+## Proposed Solution
+The proposed solution involves a post-processing technique called Weighted Median Value Replacement. This method adjusts the neuron values in the neural network to be closer to the median of corresponding values across different sensitive attribute subgroups. By doing so, it reduces the correlation between non-sensitive and sensitive features, thus mitigating sensitive attribute leakage.
+
+## Conclusion
+The proposed post-processing technique, Weighted Median Value Replacement, effectively mitigates sensitive attribute leakage in neural networks. This method improves fairness without compromising accuracy, making it a viable solution for enhancing the equity of machine learning models.
